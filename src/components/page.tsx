@@ -10,10 +10,10 @@ const Page : React.FC<pageProp> = ({editPage, page}) => {
   const [title, setTitle] = useState(page.Title);
   const [description, setDescription] = useState(page.Description);
 
-  // useEffect(() => {
-  //   setTitle(page.Title);
-  //   setDescription(page.Description);
-  // }, [page])
+  useEffect(() => {
+    setTitle(page.Title);
+    setDescription(page.Description);
+  }, [page])
 
   const saveChanges = () => {
     const newPage = {
