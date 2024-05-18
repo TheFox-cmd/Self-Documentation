@@ -1,24 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import Page from './components/page'
+import Navbar from './components/navbar';
+import {IPage} from './data/types';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  /**
+   * 1. Showcase each page on click
+   */
+  const [openID, setOpenID] = useState<number>(-1);
+  const [currPageList, setPageList] = useState<IPage[]>([]);
+
+  const handleNewPage : (page : IPage) => void = (page) => {
+    const newPageList : IPage[] = [...currPageList, page]
+    setPageList(newPageList);
+    setOpenID(currPageList.length);
+    console.log(newPageList)
+  }
+
+  const handlePageEdit : (page : IPage) => void = (page) => {
+    const newPageList : IPage[] = [...currPageList];
+    newPageList[openID] = page; 
+    setPageList(newPageList);
+    console.log(newPageList);
+  }
+
+  const handlePageSelect : (newOpenID : number) => void = (newOpenID) => {
+    setOpenID(newOpenID)
+  }
+
+  return ( 
+    <div className ="flex w-screen h-screen bg-stone-900">
+      <Navbar handleNewPage={handleNewPage} handlePageSelect={handlePageSelect} pageList={currPageList}/>
+      {currPageList.length !== 0 ? <Page handlePageEdit={handlePageEdit} page={currPageList[openID]}/> : <div/>} 
     </div>
   );
 }
