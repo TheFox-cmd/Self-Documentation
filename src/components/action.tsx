@@ -1,4 +1,4 @@
-import {IPage} from '../types';
+import {IPage} from '../data/types';
 
 interface actionProp {
 

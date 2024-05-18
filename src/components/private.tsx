@@ -1,31 +1,26 @@
-import {IPage} from '../types';
+import {IPage} from '../data/types';
 
 interface privateProp{
-  selectPage : (newOpenID : number) => void,
+  handlePageSelect : (newOpenID : number) => void,
   pageNum : number, 
   page : IPage
 }
 
-const Private : React.FC<privateProp> = ({selectPage, pageNum, page}) => {
-  const renderPage : (page : IPage) => void = () => {
-    
-  }
-  
-  const action : (page : IPage) => void = () => {
+const Private : React.FC<privateProp> = ({handlePageSelect, pageNum, page}) => {
+  const handleMenuContext : (page : IPage) => void = () => {
 
-  }
-
-  const currPage = {
-    Title: page.Title, 
-    Description: page.Description,
-    Created: page.Created,
-    Recent: new Date().toLocaleString(),
   }
 
   return (
     <div>
-      <div className="underline" onClick={() => selectPage(pageNum)}>{page.Title}</div>
-      <button onClick={() => {}}>...</button>
+      <div className="underline" onClick={() => handlePageSelect(pageNum)} onContextMenu={() => {}}>
+        <span>{page.Title}</span>
+        <button onClick={(e) => {
+            e.preventDefault(); 
+
+          }}
+        >...</button>
+      </div>
     </div>
   );
 }

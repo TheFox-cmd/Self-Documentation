@@ -1,12 +1,14 @@
+import Icon from '../data/react-icons';
+
 import React, { useState, useEffect } from 'react';
-import {IPage} from '../types';
+import {IPage} from '../data/types.js';
 
 interface pageProp {
-  editPage : (page : IPage) => void,
+  handlePageEdit : (page : IPage) => void,
   page : IPage
 }
 
-const Page : React.FC<pageProp> = ({editPage, page}) => {
+const Page : React.FC<pageProp> = ({handlePageEdit, page}) => {
   const [title, setTitle] = useState(page.Title);
   const [description, setDescription] = useState(page.Description);
 
@@ -15,14 +17,14 @@ const Page : React.FC<pageProp> = ({editPage, page}) => {
     setDescription(page.Description);
   }, [page])
 
-  const saveChanges = () => {
+  const handlePageSave = () => {
     const newPage = {
       Title: title, 
       Description: description,
       Created: page.Created,
       Recent: new Date().toLocaleString(),
     }
-    editPage(newPage);
+    handlePageEdit(newPage);
   };
 
   return (
@@ -35,8 +37,8 @@ const Page : React.FC<pageProp> = ({editPage, page}) => {
         key={page.Title}
         defaultValue={page.Title}
         onChange={(e) => setTitle(e.target.value)}
-        onBlur={saveChanges}
-        onKeyDown={(e) => {if (e.key === "Enter") saveChanges()}} 
+        onBlur={handlePageSave}
+        onKeyDown={(e) => {if (e.key === "Enter") handlePageSave()}} 
       />
       <input 
         type="text" 
@@ -45,11 +47,13 @@ const Page : React.FC<pageProp> = ({editPage, page}) => {
         key={page.Description}
         defaultValue={page.Description}
         onChange={(e) => setDescription(e.target.value)}
-        onBlur={saveChanges}
-        onKeyDown={(e) => {if (e.key === "Enter") saveChanges()}}  
+        onBlur={handlePageSave}
+        onKeyDown={(e) => {if (e.key === "Enter") handlePageSave()}}  
       />
     </div>
   );
 }
 
 export default Page;
+
+
