@@ -5,4 +5,11 @@ export interface IPage {
   Recent: string;
 }
 
-
+export interface IUserContext {
+  handleNewPage: (page : IPage) => void;
+  handlePageEdit: (page : IPage) => void;
+  handlePageSelect: (newOpenID: number) => void;
+  currPageList: IPage[];
+  page: IPage;
+  pageID: number;
+}

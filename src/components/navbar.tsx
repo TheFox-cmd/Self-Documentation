@@ -1,18 +1,20 @@
+import { useContext } from 'react';
 import Icon from '../data/react-icons';
-
-import {IPage} from '../data/types.js';
 import Private from "./private";
+import {IPage} from '../data/types.js';
+import UserContext from '../data/userContext';
 
-interface navbarProp {
-  handleNewPage : (page : IPage) => void,
-  handlePageSelect : (newOpenID : number) => void,
-  pageList : IPage[]
-}
-
-const Navbar : React.FC<navbarProp> = ({handleNewPage, handlePageSelect, pageList}) => {
+const Navbar : React.FC = () => {
   const liStyle = "pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg"
   
   const username = "Andy";
+
+  const { 
+    handleNewPage, 
+    handlePageSelect, 
+    currPageList : pageList,
+    ...rest 
+  } = useContext(UserContext)
 
   const newPage : IPage = {
     Title: "Untitled", 
@@ -58,7 +60,7 @@ const Navbar : React.FC<navbarProp> = ({handleNewPage, handlePageSelect, pageLis
             </button>
           </li>
           {/* Render Private Page List */}
-          {pageList.map((item : IPage, i : number) => <Private handlePageSelect={handlePageSelect} key={i} pageNum={i} page={item}/>)}
+          {pageList.map((item : IPage, i : number) => <Private key={i} pageID={i} page={item}/>)}
           {/* Holds Calender, Templates, Trash */}
           <li className="mt-8 pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
