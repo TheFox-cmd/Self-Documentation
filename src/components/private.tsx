@@ -1,4 +1,6 @@
+import { useState, useEffect, useRef } from 'react';
 import {IPage} from '../data/types';
+import ContextMenu from './contextMenu'
 
 interface privateProp{
   handlePageSelect : (newOpenID : number) => void,
@@ -7,21 +9,66 @@ interface privateProp{
 }
 
 const Private : React.FC<privateProp> = ({handlePageSelect, pageNum, page}) => {
-  const handleMenuContext : (page : IPage) => void = () => {
+  const pageStyle = "underline hover:cursor-pointer pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg"
+  
+  const [click, setClick] = useState(false);
+  const [contextPosition, setContextPosition] = useState({
+    x: 0, 
+    y: 0
+  });
+  const menuRef = useRef<HTMLDivElement>(null);
 
+  /**
+   * Acquire pop-up popsition for menu context
+   * @param e
+   */
+  const handleMenuContext : (e : React.MouseEvent) => void = (e) => {
+    e.preventDefault();
+    setClick(true);
+    const newContextPosition = {x : e.pageX, y : e.pageY}
+    setContextPosition(newContextPosition);
   }
 
-  return (
-    <div>
-      <div className="underline" onClick={() => handlePageSelect(pageNum)} onContextMenu={() => {}}>
-        <span>{page.Title}</span>
-        <button onClick={(e) => {
-            e.preventDefault(); 
+  /**
+   * Clear menu context when mouse is clicked outside of the menu context
+   * @param e 
+   */
+  const handleClickClearMenuContext : (e : MouseEvent) => void = (e) => {
+    if (menuRef.current && !menuRef.current.contains(e.target as Node)) setClick(false);
+  }
 
-          }}
-        >...</button>
+  /**
+   * Clear menu context when ESC is pressed
+   * @param e 
+   */
+  const handleKeyClearMenuContext : (e : KeyboardEvent) => void = (e) => {
+    if (e.key === "Escape") setClick(false);
+  }
+
+  /**
+   * Renders during unmounting to remove unconnected event listeners
+   */
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickClearMenuContext);
+    document.addEventListener('keydown', handleKeyClearMenuContext);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickClearMenuContext);
+      document.removeEventListener('keydown', handleKeyClearMenuContext);
+    };
+  }, []);
+
+  return (
+    <>
+      <div onContextMenu={handleMenuContext}>
+        <div className={pageStyle} onClick={() => handlePageSelect(pageNum)}>
+          <span>{page.Title}</span>
+          <button onClick={handleMenuContext}>...</button>
+        </div>
       </div>
-    </div>
+      {click && <ContextMenu click={click} contextPosition={contextPosition} menuRef={menuRef}/>}
+    </>
+    
   );
 }
 
