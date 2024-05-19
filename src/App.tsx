@@ -3,10 +3,16 @@ import './App.css';
 import Page from './components/page'
 import Navbar from './components/navbar';
 import {IPage} from './data/types';
+import UserContext from './data/userContext';
 
 function App() {
+  /**
+   * TODO: Duplicate
+   * TODO: Delete
+  */ 
+
   const [openID, setOpenID] = useState<number>(-1);
-  const [currPageList, setPageList] = useState<IPage[]>([]);
+  const [currPageList, setPageList] = useState<IPage[]>([]); 
 
   /**
    * Create new page object and append to page list
@@ -38,10 +44,19 @@ function App() {
     setOpenID(newOpenID)
   }
 
+  /**
+   * Acquire page base on ID
+   */
+  const page = currPageList[openID];
+
   return ( 
     <div className ="flex w-screen h-screen bg-stone-900">
-      <Navbar handleNewPage={handleNewPage} handlePageSelect={handlePageSelect} pageList={currPageList}/>
-      {currPageList.length !== 0 && openID !== -1 ? <Page handlePageEdit={handlePageEdit} page={currPageList[openID]}/> : <div/>} 
+      <UserContext.Provider 
+        value={{ handleNewPage, handlePageEdit, handlePageSelect, currPageList, page, pageID : openID }}
+      >
+        <Navbar/>  
+        {openID !== -1 ? <Page /> : <div/>} 
+      </UserContext.Provider>
     </div>
   );
 }

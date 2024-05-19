@@ -1,16 +1,21 @@
-import { useState, useEffect, useRef } from 'react';
-import {IPage} from '../data/types';
+import { useState, useEffect, useRef, useContext } from 'react';
 import ContextMenu from './contextMenu'
+import UserContext from '../data/userContext';
+import { IPage } from '../data/types';
 
 interface privateProp{
-  handlePageSelect : (newOpenID : number) => void,
-  pageNum : number, 
+  pageID : number, 
   page : IPage
 }
 
-const Private : React.FC<privateProp> = ({handlePageSelect, pageNum, page}) => {
+const Private : React.FC<privateProp> = ({pageID, page}) => {
   const pageStyle = "underline hover:cursor-pointer pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg"
   
+  const { 
+    handlePageSelect,
+    ...rest 
+  } = useContext(UserContext);
+
   const [click, setClick] = useState(false);
   const [contextPosition, setContextPosition] = useState({
     x: 0, 
@@ -61,12 +66,12 @@ const Private : React.FC<privateProp> = ({handlePageSelect, pageNum, page}) => {
   return (
     <>
       <div onContextMenu={handleMenuContext}>
-        <div className={pageStyle} onClick={() => handlePageSelect(pageNum)}>
+        <div className={pageStyle} onClick={() => handlePageSelect(pageID)}>
           <span>{page.Title}</span>
           <button onClick={handleMenuContext}>...</button>
         </div>
       </div>
-      {click && <ContextMenu click={click} contextPosition={contextPosition} menuRef={menuRef}/>}
+      {click && <ContextMenu contextPosition={contextPosition} menuRef={menuRef}/>}
     </>
     
   );

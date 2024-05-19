@@ -1,16 +1,19 @@
-import { RefObject } from 'react';
-import Icon from '../data/react-icons.js';
-
+import { RefObject, useContext } from 'react';
+import UserContext from '../data/userContext';
 import {IPage} from '../data/types.js';
 
 interface MenuContextProp {
-  click: boolean, 
   contextPosition : {x : number, y : number},
   menuRef: RefObject<HTMLDivElement>;
 }
 
-const MenuContext : React.FC<MenuContextProp> = ({ click, contextPosition, menuRef }) => {
-  if (!click) return null
+const MenuContext : React.FC<MenuContextProp> = ({ contextPosition, menuRef }) => {
+  const { 
+    handlePageSelect,
+    page,
+    pageID,
+    ...rest 
+  } = useContext(UserContext);
 
   const handlePageDuplication : (page : IPage) => void = () => {
 

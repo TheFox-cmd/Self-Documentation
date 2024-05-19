@@ -1,14 +1,13 @@
-import Icon from '../data/react-icons';
+import React, { useState, useEffect, useContext } from 'react';
+import UserContext from '../data/userContext';
 
-import React, { useState, useEffect } from 'react';
-import {IPage} from '../data/types.js';
+const Page : React.FC = () => {
+  const { 
+    handlePageEdit,
+    page,
+    ...rest 
+  } = useContext(UserContext)
 
-interface pageProp {
-  handlePageEdit : (page : IPage) => void,
-  page : IPage
-}
-
-const Page : React.FC<pageProp> = ({handlePageEdit, page}) => {
   const [title, setTitle] = useState(page.Title);
   const [description, setDescription] = useState(page.Description);
 
