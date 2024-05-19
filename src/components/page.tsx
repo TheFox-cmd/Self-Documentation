@@ -12,11 +12,17 @@ const Page : React.FC<pageProp> = ({handlePageEdit, page}) => {
   const [title, setTitle] = useState(page.Title);
   const [description, setDescription] = useState(page.Description);
 
+  /**
+   * Triggers current page render on input
+   */
   useEffect(() => {
     setTitle(page.Title);
     setDescription(page.Description);
   }, [page])
 
+  /**
+   * Save page status to private page list
+   */
   const handlePageSave = () => {
     const newPage = {
       Title: title, 

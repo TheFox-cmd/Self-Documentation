@@ -10,6 +10,8 @@ interface navbarProp {
 }
 
 const Navbar : React.FC<navbarProp> = ({handleNewPage, handlePageSelect, pageList}) => {
+  const liStyle = "pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg"
+  
   const username = "Andy";
 
   const newPage : IPage = {
@@ -29,13 +31,13 @@ const Navbar : React.FC<navbarProp> = ({handleNewPage, handlePageSelect, pageLis
         </div>
         <ul className="block mt-5 text-slate-400">
           {/* Hold Search and Settings buttons */}
-          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={ liStyle }>
             <button className="flex w-full">
               <Icon.BiSearchAlt className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Search</span>
             </button>
           </li>
-          <li className=" pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={ liStyle }>
             <button className="flex w-full">
               <Icon.IoSettingsOutline className="w-5 h-5 mt-0.5"/>
               <span className="ml-3">Settings</span>
@@ -49,7 +51,7 @@ const Navbar : React.FC<navbarProp> = ({handleNewPage, handlePageSelect, pageLis
             </button>
           </li>
           {/* Create New Page */}
-          <li className=" pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={ liStyle }>
             <button className="flex w-full" onClick={() => handleNewPage(newPage)}>
               <Icon.FiPlus className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Add a New Page</span>
@@ -64,19 +66,19 @@ const Navbar : React.FC<navbarProp> = ({handleNewPage, handlePageSelect, pageLis
               <span className="ml-3">Calender</span>
             </button>
           </li>
-          <li className=" pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={ liStyle }>
             <button className="flex w-full">
               <Icon.RiShapesFill className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Templates</span>
             </button>
           </li>
-          <li className=" pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={ liStyle }>
             <button className="flex w-full">
               <Icon.FaRegTrashCan className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Trash</span>
             </button>
           </li>
-          <li className=" pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={ liStyle }>
             <button className="flex w-full">
               <Icon.IoInformationCircleSharp className="w-5 h-5 mt-0.5" />
               <span className="ml-3">About</span>
