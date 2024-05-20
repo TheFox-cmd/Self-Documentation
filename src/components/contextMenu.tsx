@@ -1,28 +1,20 @@
-import { RefObject, useContext } from 'react';
+import { RefObject, SetStateAction, useContext } from 'react';
 import UserContext from '../data/userContext';
 import {IPage} from '../data/types.js';
 
 interface MenuContextProp {
   contextPosition : {x : number, y : number},
-  menuRef: RefObject<HTMLDivElement>;
+  menuRef: RefObject<HTMLDivElement>,
+  handlePageDuplication: (page : IPage) => void,
+  handlePageDeletion: (pageIndex : number) => void
 }
 
-const MenuContext : React.FC<MenuContextProp> = ({ contextPosition, menuRef }) => {
+const MenuContext : React.FC<MenuContextProp> = ({ contextPosition, menuRef, handlePageDuplication, handlePageDeletion }) => {
   const { 
-    handlePageSelect,
     page,
     pageID,
     ...rest 
   } = useContext(UserContext);
-
-  const handlePageDuplication : (page : IPage) => void = () => {
-
-  }
-
-  // delete set openID to -1
-  const handlePageDeletion : (page : IPage) => void = () => {
-
-  }
 
   return (
     <div
@@ -31,8 +23,8 @@ const MenuContext : React.FC<MenuContextProp> = ({ contextPosition, menuRef }) =
       ref={ menuRef }
     >
       <ul>
-        <li className='p-1' onClick={() => {}}>Duplicate</li>
-        <li className='p-1' onClick={() => {}}>Delete</li>
+        <li className='p-1' onClick={() => handlePageDuplication(page)}>Duplicate</li>
+        <li className='p-1' onClick={() => handlePageDeletion(pageID)}>Delete</li>
       </ul>
     </div>
   )

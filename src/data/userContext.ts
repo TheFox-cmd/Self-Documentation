@@ -2,9 +2,10 @@ import { IPage, IUserContext } from './types'
 import { createContext } from 'react';
 
 const UserContext = createContext<IUserContext>({
-  handleNewPage: (page : IPage) => {},
+  handlePageAdd: (page : IPage, pageIndex? : number) => {},
   handlePageEdit: (page : IPage) => {},
   handlePageSelect: (newOpenID : number) => {},
+  handlePageRemove: (pageIndex : number) => {},
   currPageList: [],
   page: {
     Title: "",
