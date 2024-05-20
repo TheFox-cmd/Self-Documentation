@@ -5,12 +5,10 @@ import {IPage} from '../data/types.js';
 import UserContext from '../data/userContext';
 
 const Navbar : React.FC = () => {
-  const liStyle = "pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg"
-  
   const username = "Andy";
 
   const { 
-    handleNewPage, 
+    handlePageAdd, 
     handlePageSelect, 
     currPageList : pageList,
     ...rest 
@@ -33,13 +31,13 @@ const Navbar : React.FC = () => {
         </div>
         <ul className="block mt-5 text-slate-400">
           {/* Hold Search and Settings buttons */}
-          <li className={ liStyle }>
+          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
               <Icon.BiSearchAlt className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Search</span>
             </button>
           </li>
-          <li className={ liStyle }>
+          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
               <Icon.IoSettingsOutline className="w-5 h-5 mt-0.5"/>
               <span className="ml-3">Settings</span>
@@ -53,14 +51,14 @@ const Navbar : React.FC = () => {
             </button>
           </li>
           {/* Create New Page */}
-          <li className={ liStyle }>
-            <button className="flex w-full" onClick={() => handleNewPage(newPage)}>
+          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+            <button className="flex w-full" onClick={() => handlePageAdd(newPage)}>
               <Icon.FiPlus className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Add a New Page</span>
             </button>
           </li>
           {/* Render Private Page List */}
-          {pageList.map((item : IPage, i : number) => <Private key={i} pageID={i} page={item}/>)}
+          {pageList.map((item : IPage, i : number) => <Private key={i} pageIndex={i} page={item}/>)}
           {/* Holds Calender, Templates, Trash */}
           <li className="mt-8 pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
@@ -68,19 +66,19 @@ const Navbar : React.FC = () => {
               <span className="ml-3">Calender</span>
             </button>
           </li>
-          <li className={ liStyle }>
+          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
               <Icon.RiShapesFill className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Templates</span>
             </button>
           </li>
-          <li className={ liStyle }>
+          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
               <Icon.FaRegTrashCan className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Trash</span>
             </button>
           </li>
-          <li className={ liStyle }>
+          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
               <Icon.IoInformationCircleSharp className="w-5 h-5 mt-0.5" />
               <span className="ml-3">About</span>

@@ -4,15 +4,18 @@ import UserContext from '../data/userContext';
 import { IPage } from '../data/types';
 
 interface privateProp{
-  pageID : number, 
+  pageIndex : number, 
   page : IPage
 }
 
-const Private : React.FC<privateProp> = ({pageID, page}) => {
+const Private : React.FC<privateProp> = ({pageIndex, page}) => {
   const pageStyle = "underline hover:cursor-pointer pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg"
   
   const { 
+    handlePageAdd,
     handlePageSelect,
+    handlePageRemove,
+    pageID,
     ...rest 
   } = useContext(UserContext);
 
@@ -63,15 +66,38 @@ const Private : React.FC<privateProp> = ({pageID, page}) => {
     };
   }, []);
 
+  const handlePageDuplication : (page : IPage) => void = () => {
+    const dupePage : IPage = {
+      Title: page.Title, 
+      Description: page.Description,
+      Created: new Date().toLocaleString(),
+      Recent: new Date().toLocaleString()
+    }
+
+    handlePageAdd(dupePage, pageID + 1)
+    setClick(false);
+  }
+
+  // delete set pageIndex to -1
+  const handlePageDeletion : (pageIndex : number) => void = (pageIndex) => {
+    handlePageRemove(pageIndex);
+    setClick(false);
+  }
+
   return (
     <>
       <div onContextMenu={handleMenuContext}>
-        <div className={pageStyle} onClick={() => handlePageSelect(pageID)}>
+        <div className={pageStyle} onClick={() => handlePageSelect(pageIndex)}>
           <span>{page.Title}</span>
           <button onClick={handleMenuContext}>...</button>
         </div>
       </div>
-      {click && <ContextMenu contextPosition={contextPosition} menuRef={menuRef}/>}
+      {click && <ContextMenu 
+        contextPosition={contextPosition} 
+        menuRef={menuRef} 
+        handlePageDuplication={handlePageDuplication} 
+        handlePageDeletion={handlePageDeletion}
+      />}
     </>
     
   );

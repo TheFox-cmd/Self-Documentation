@@ -6,9 +6,10 @@ export interface IPage {
 }
 
 export interface IUserContext {
-  handleNewPage: (page : IPage) => void;
+  handlePageAdd: (page : IPage, pageIndex? : number) => void;
   handlePageEdit: (page : IPage) => void;
   handlePageSelect: (newOpenID: number) => void;
+  handlePageRemove: (pageIndex : number) => void;
   currPageList: IPage[];
   page: IPage;
   pageID: number;
