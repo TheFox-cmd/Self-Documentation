@@ -15,8 +15,7 @@ const Private : React.FC<privateProp> = ({pageIndex, page}) => {
     handlePageAdd,
     handlePageSelect,
     handlePageRemove,
-    pageID,
-    ...rest 
+    pageList,
   } = useContext(UserContext);
 
   const [click, setClick] = useState(false);
@@ -54,7 +53,7 @@ const Private : React.FC<privateProp> = ({pageIndex, page}) => {
   }
 
   /**
-   * Renders during unmounting to remove unconnected event listeners
+   * Renders during unmounting to remove unconnected event listeners for context menu
    */
   useEffect(() => {
     document.addEventListener('mousedown', handleClickClearMenuContext);
@@ -66,28 +65,31 @@ const Private : React.FC<privateProp> = ({pageIndex, page}) => {
     };
   }, []);
 
-  const handlePageDuplication : (page : IPage) => void = () => {
+  /** redundant page variable  */
+  const handlePageDuplication : (page : IPage) => void = (page) => {
     const dupePage : IPage = {
+      Index: pageList.length,
       Title: page.Title, 
       Description: page.Description,
       Created: new Date().toLocaleString(),
-      Recent: new Date().toLocaleString()
+      Recent: new Date().toLocaleString(),
+      Port: page.Port
     }
 
-    handlePageAdd(dupePage, pageID + 1)
+    handlePageAdd(dupePage)
     setClick(false);
   }
 
   // delete set pageIndex to -1
-  const handlePageDeletion : (pageIndex : number) => void = (pageIndex) => {
-    handlePageRemove(pageIndex);
+  const handlePageMove : (pageIndex : number, port : string) => void = (pageIndex, port) => {
+    handlePageRemove(pageIndex, port);
     setClick(false);
   }
 
   return (
     <>
       <div onContextMenu={handleMenuContext}>
-        <div className={pageStyle} onClick={() => handlePageSelect(pageIndex)}>
+        <div className={pageStyle} onClick={() => handlePageSelect(page.Index)}>
           <span>{page.Title}</span>
           <button onClick={handleMenuContext}>...</button>
         </div>
@@ -96,7 +98,8 @@ const Private : React.FC<privateProp> = ({pageIndex, page}) => {
         contextPosition={contextPosition} 
         menuRef={menuRef} 
         handlePageDuplication={handlePageDuplication} 
-        handlePageDeletion={handlePageDeletion}
+        handlePageMove={handlePageMove}
+        pageIndex={page.Index}
       />}
     </>
     

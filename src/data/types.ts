@@ -1,16 +1,18 @@
 export interface IPage {
+  Index: number;
   Title: string; 
   Description: string; 
   Created: string;
   Recent: string;
+  Port: string;           // star, regular, trash, permanent
 }
 
 export interface IUserContext {
-  handlePageAdd: (page : IPage, pageIndex? : number) => void;
+  handlePageAdd: (page : IPage) => void;
   handlePageEdit: (page : IPage) => void;
-  handlePageSelect: (newOpenID: number) => void;
-  handlePageRemove: (pageIndex : number) => void;
-  currPageList: IPage[];
+  handlePageSelect: (pageIndex: number) => void;
+  handlePageRemove: (pageIndex : number, port : string) => void;
+  pageList: IPage[];
   page: IPage;
-  pageID: number;
+  pageIndex: number;
 }

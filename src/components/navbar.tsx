@@ -1,25 +1,54 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import Icon from '../data/react-icons';
 import Private from "./private";
 import {IPage} from '../data/types.js';
 import UserContext from '../data/userContext';
+import Template from './template';
 
 const Navbar : React.FC = () => {
   const username = "Andy";
 
   const { 
     handlePageAdd, 
-    handlePageSelect, 
-    currPageList : pageList,
-    ...rest 
+    pageList,
   } = useContext(UserContext)
 
   const newPage : IPage = {
-    Title: "Untitled", 
+    Index: pageList.length,
+    // Title: "Untitled", 
+    Title: (pageList.length).toString(),
     Description: "",
     Created: new Date().toLocaleString(),
-    Recent: new Date().toLocaleString()
+    Recent: new Date().toLocaleString(),
+    Port: "regular"
   }
+
+  const [template, setTemplate] = useState(false)
+  
+  /**
+   * Acquire page template pop-up on adding new page
+   * @param apply 
+   * @param e 
+   * @returns 
+   */
+  const handleTemplate : (apply : boolean, e? : KeyboardEvent) => void = (apply, e) => {
+    if (apply) handlePageAdd(newPage)
+    else if (e && e?.key !== "Escape") return 
+    setTemplate(false)
+  }
+
+  /**
+   * Renders during unmounting to remove unconnected event listeners for template selection
+   */
+  useEffect(() => {
+    const handleKeyDown = (e : KeyboardEvent) => handleTemplate(false, e);
+  
+    document.addEventListener('keydown', handleKeyDown);
+  
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   return (
     // Holds house icon, Name
@@ -43,6 +72,7 @@ const Navbar : React.FC = () => {
               <span className="ml-3">Settings</span>
             </button>
           </li>
+          {pageList.filter((item : IPage) => item.Port === "star").map((item : IPage, i : number) => <Private key={i} pageIndex={item.Index} page={item}/>)}
           {/* Holds Getting Started */}
           <li className="mt-8 pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
@@ -52,13 +82,15 @@ const Navbar : React.FC = () => {
           </li>
           {/* Create New Page */}
           <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
-            <button className="flex w-full" onClick={() => handlePageAdd(newPage)}>
+            <button className="flex w-full" onClick={() => setTemplate(true)}>
               <Icon.FiPlus className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Add a New Page</span>
             </button>
           </li>
+          {/* Prompts Template Page */}
+          {template && <Template handleTemplate={handleTemplate}/>}
           {/* Render Private Page List */}
-          {pageList.map((item : IPage, i : number) => <Private key={i} pageIndex={i} page={item}/>)}
+          {pageList.filter((item : IPage) => item.Port === "regular").map((item : IPage, i : number) => <Private key={i} pageIndex={item.Index} page={item}/>)}
           {/* Holds Calender, Templates, Trash */}
           <li className="mt-8 pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
@@ -78,6 +110,7 @@ const Navbar : React.FC = () => {
               <span className="ml-3">Trash</span>
             </button>
           </li>
+          {pageList.filter((item : IPage) => item.Port === "trash").map((item : IPage, i : number) => <Private key={i} pageIndex={item.Index} page={item}/>)}
           <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
               <Icon.IoInformationCircleSharp className="w-5 h-5 mt-0.5" />
