@@ -1,13 +1,13 @@
 TODO LIST - 
 
 NavBar Implentation Goal 1: 
-1 - Create the NavBar on the right side of the page with all the items
+1 - Create the NavBar on the left side of the page with all the items
 2 - The Items will consist of the name of the creator, then below that a setting tab
-3 - Sepearted by a gap will follow a Get Started page where an example page will appear with text explaining the different features of the website
+3 - Separated by a gap will follow a Get Started page where an example page will appear with text explaining the different features of the website
 4 - Below will be a +Add a Page, where a user is allowed to create a page with a template or none
 5 - Another block will have a Calender, Template, and trash bin. Implenentation of each will be discuessed later.
 6 - On the top left of the page will have the name of the page
-7 - Two icons will appear on the top right of the page, which will be favriote and a "..." icon where when clicked will prompt more options
+7 - Two icons will appear on the top right of the page, which will be favorite and a "..." icon where when clicked will prompt more options
 
 Implentation of Each NavBar Icon:
 Settings - Will have a pop up in the center and darken the background. For now only two options one to change the icon that is behind the name, and to change said name.

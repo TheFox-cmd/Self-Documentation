@@ -1,19 +1,18 @@
-import { RefObject, SetStateAction, useContext } from 'react';
+import { RefObject, useContext } from 'react';
 import UserContext from '../data/userContext';
 import {IPage} from '../data/types.js';
 
 interface MenuContextProp {
   contextPosition : {x : number, y : number},
   menuRef: RefObject<HTMLDivElement>,
+  pageIndex: number,
   handlePageDuplication: (page : IPage) => void,
-  handlePageDeletion: (pageIndex : number) => void
+  handlePageMove: (pageIndex : number, port : string) => void
 }
 
-const MenuContext : React.FC<MenuContextProp> = ({ contextPosition, menuRef, handlePageDuplication, handlePageDeletion }) => {
+const MenuContext : React.FC<MenuContextProp> = ({ contextPosition, menuRef, pageIndex, handlePageDuplication, handlePageMove }) => {
   const { 
     page,
-    pageID,
-    ...rest 
   } = useContext(UserContext);
 
   return (
@@ -23,8 +22,11 @@ const MenuContext : React.FC<MenuContextProp> = ({ contextPosition, menuRef, han
       ref={ menuRef }
     >
       <ul>
+        <li className='p-1' onClick={() => handlePageMove(pageIndex, "star")}>Star</li>
+        <li className='p-1' onClick={() => handlePageMove(pageIndex, "regular")}>Restore</li>
         <li className='p-1' onClick={() => handlePageDuplication(page)}>Duplicate</li>
-        <li className='p-1' onClick={() => handlePageDeletion(pageID)}>Delete</li>
+        <li className='p-1' onClick={() => handlePageMove(pageIndex, "trash")}>Delete</li>
+        <li className='p-1' onClick={() => handlePageMove(pageIndex, "permanent")}>Permanently Removed</li>
       </ul>
     </div>
   )

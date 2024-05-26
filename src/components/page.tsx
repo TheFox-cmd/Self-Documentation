@@ -5,7 +5,6 @@ const Page : React.FC = () => {
   const { 
     handlePageEdit,
     page,
-    ...rest 
   } = useContext(UserContext)
 
   const [title, setTitle] = useState(page.Title);
@@ -23,13 +22,15 @@ const Page : React.FC = () => {
    * Save page status to private page list
    */
   const handlePageSave = () => {
-    const newPage = {
+    const newCurrPage = {
+      Index: page.Index,
       Title: title, 
       Description: description,
       Created: page.Created,
       Recent: new Date().toLocaleString(),
+      Port: page.Port
     }
-    handlePageEdit(newPage);
+    handlePageEdit(newCurrPage);
   };
 
   return (
