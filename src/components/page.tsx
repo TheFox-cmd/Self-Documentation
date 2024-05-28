@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import UserContext from '../data/userContext';
+import Icon from '../data/react-icons';
 
 const Page : React.FC = () => {
   const { 
     handlePageEdit,
+    handlePageRemove,
     page,
   } = useContext(UserContext)
 
@@ -56,6 +58,7 @@ const Page : React.FC = () => {
         onBlur={handlePageSave}
         onKeyDown={(e) => {if (e.key === "Enter") handlePageSave()}}  
       />
+      
     </div>
   );
 }
@@ -63,3 +66,13 @@ const Page : React.FC = () => {
 export default Page;
 
 
+{/* <Icon.FaStar 
+  size={50} 
+  color={star ? 'yellow' : 'grey'} 
+  onClick={() => {
+    if (star) handlePageRemove(page.Index, "regular") 
+    else handlePageRemove(page.Index, "star")
+    
+  }} 
+  style={{ cursor: 'pointer' }}
+/> */}

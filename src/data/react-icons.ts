@@ -2,7 +2,7 @@
 import { BiSearchAlt } from "react-icons/bi";
 
 // React Icons - Fa
-import { FaEllipsisH, FaHouseUser, FaRegStar } from "react-icons/fa";
+import { FaEllipsisH, FaHouseUser, FaRegStar, FaStar } from "react-icons/fa";
 import { FaRegTrashCan } from 'react-icons/fa6'
 
 // React Icons - Fi
@@ -27,6 +27,7 @@ export default {
   FaHouseUser,
   FaRegStar,
   FaRegTrashCan,
+  FaStar,
   FiPlus,
   IoInformationCircleSharp,
   IoSettingsOutline,

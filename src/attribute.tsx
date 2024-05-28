@@ -15,10 +15,10 @@ const attribute : React.FC = () => {
   const emptyPage : IPage = {
     Index: NaN,
     Title: "Error",
-    Description: "Screen", 
-    Created: "",
-    Recent: "",
-    Port: ""
+    Description: "Error", 
+    Created: "Error",
+    Recent: "Error",
+    Port: "Error"
   }
 
   /**
@@ -39,7 +39,17 @@ const attribute : React.FC = () => {
    */
   const handlePageEdit : (page : IPage) => void = (page) => {
     const newPageList : IPage[] = [...pageList];
-    newPageList[pageIndex] = page; 
+    const index = newPageList.map((item) => item.Index).indexOf(page.Index)
+
+    // * throw Error if index is not found when editing
+    try {
+      if (!index) throw new Error("Index not found in page list while editing");
+    } catch (e : any) {
+      console.log(e.message);
+      return
+    } 
+
+    newPageList[index] = page; 
     setPageList(newPageList);
   }
 
@@ -49,6 +59,7 @@ const attribute : React.FC = () => {
    */
   const handlePageSelect : (selectedIndex : number) => void = (selectedIndex) => {
     setPageIndex(selectedIndex)
+    console.log(selectedIndex)
   }
 
   /**
@@ -56,6 +67,16 @@ const attribute : React.FC = () => {
    * @param pageIndex 
    */
   const handlePageRemove : (pageIndex : number, port : string) => void = (pageIndex, port) => {
+    const portList : String[] = ["star", "regular", "trash", "permanent"]
+
+    // * throw Error if port is not in portList
+    try {
+      if (portList.indexOf(port) === -1) throw new Error("Wrong port connection while moving");
+    } catch (e : any) {
+      console.log(e.message);
+      return
+    } 
+
     let newPageList : IPage[] = [...pageList]
 
     // * Find according item index
