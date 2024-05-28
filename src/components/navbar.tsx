@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect, useRef } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import Icon from '../data/react-icons';
 import Private from "./private";
 import {IPage} from '../data/types.js';
@@ -15,8 +15,7 @@ const Navbar : React.FC = () => {
 
   const newPage : IPage = {
     Index: pageList.length,
-    // Title: "Untitled", 
-    Title: (pageList.length).toString(),
+    Title: "Untitled", 
     Description: "",
     Created: new Date().toLocaleString(),
     Recent: new Date().toLocaleString(),
@@ -72,7 +71,7 @@ const Navbar : React.FC = () => {
               <span className="ml-3">Settings</span>
             </button>
           </li>
-          {pageList.filter((item : IPage) => item.Port === "star").map((item : IPage, i : number) => <Private key={i} pageIndex={item.Index} page={item}/>)}
+          {pageList.filter((item : IPage) => item.Port === "star").map((item : IPage, i : number) => <Private key={i} page={item}/>)}
           {/* Holds Getting Started */}
           <li className="mt-8 pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
@@ -90,7 +89,7 @@ const Navbar : React.FC = () => {
           {/* Prompts Template Page */}
           {template && <Template handleTemplate={handleTemplate}/>}
           {/* Render Private Page List */}
-          {pageList.filter((item : IPage) => item.Port === "regular").map((item : IPage, i : number) => <Private key={i} pageIndex={item.Index} page={item}/>)}
+          {pageList.filter((item : IPage) => item.Port === "regular").map((item : IPage, i : number) => <Private key={i} page={item}/>)}
           {/* Holds Calender, Templates, Trash */}
           <li className="mt-8 pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
@@ -110,7 +109,7 @@ const Navbar : React.FC = () => {
               <span className="ml-3">Trash</span>
             </button>
           </li>
-          {pageList.filter((item : IPage) => item.Port === "trash").map((item : IPage, i : number) => <Private key={i} pageIndex={item.Index} page={item}/>)}
+          {pageList.filter((item : IPage) => item.Port === "trash").map((item : IPage, i : number) => <Private key={i} page={item}/>)}
           <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
             <button className="flex w-full">
               <Icon.IoInformationCircleSharp className="w-5 h-5 mt-0.5" />

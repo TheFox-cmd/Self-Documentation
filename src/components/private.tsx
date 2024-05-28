@@ -4,11 +4,10 @@ import UserContext from '../data/userContext';
 import { IPage } from '../data/types';
 
 interface privateProp{
-  pageIndex : number, 
   page : IPage
 }
 
-const Private : React.FC<privateProp> = ({pageIndex, page}) => {
+const Private : React.FC<privateProp> = ({ page }) => {
   const pageStyle = "underline hover:cursor-pointer pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg"
   
   const { 
@@ -23,6 +22,7 @@ const Private : React.FC<privateProp> = ({pageIndex, page}) => {
     x: 0, 
     y: 0
   });
+  const [edit, setEdit] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   /**
@@ -88,10 +88,10 @@ const Private : React.FC<privateProp> = ({pageIndex, page}) => {
 
   return (
     <>
-      <div onContextMenu={handleMenuContext}>
+      <div onContextMenu={handleMenuContext} onMouseOver={() => setEdit(true)} onMouseOut={() => setEdit(false)}>
         <div className={pageStyle} onClick={() => handlePageSelect(page.Index)}>
           <span>{page.Title}</span>
-          <button onClick={handleMenuContext}>...</button>
+          {edit && <button onClick={handleMenuContext}>...</button>}
         </div>
       </div>
       {click && <ContextMenu 
