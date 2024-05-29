@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState, useEffect, useRef } from 'react';
 import Icon from '../data/react-icons';
 import Private from "./private";
 import {IPage} from '../data/types.js';
@@ -23,6 +23,7 @@ const Navbar : React.FC = () => {
   }
 
   const [template, setTemplate] = useState(false)
+  const templateRef = useRef<HTMLDivElement>(null);
   
   /**
    * Acquire page template pop-up on adding new page
@@ -30,9 +31,9 @@ const Navbar : React.FC = () => {
    * @param e 
    * @returns 
    */
-  const handleTemplate : (apply : boolean, e? : KeyboardEvent) => void = (apply, e) => {
+  const handleTemplate : (apply : boolean, eK? : KeyboardEvent, eM? : MouseEvent) => void = (apply, eK, eM) => {
     if (apply) handlePageAdd(newPage)
-    else if (e && e?.key !== "Escape") return 
+    else if ((eK && eK?.key !== "Escape") || (eM && templateRef.current && templateRef.current.contains(eM.target as Node))) return 
     setTemplate(false)
   }
 
@@ -40,11 +41,14 @@ const Navbar : React.FC = () => {
    * Renders during unmounting to remove unconnected event listeners for template selection
    */
   useEffect(() => {
-    const handleKeyDown = (e : KeyboardEvent) => handleTemplate(false, e);
+    const handleKeyDown = (e : KeyboardEvent) => handleTemplate(false, e, undefined);
+    const handleMouseDown = (e : MouseEvent) => handleTemplate(false, undefined, e)
   
+    document.addEventListener('mousedown', handleMouseDown);
     document.addEventListener('keydown', handleKeyDown);
   
     return () => {
+      document.removeEventListener('mousedown', handleMouseDown);
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, []);
@@ -87,7 +91,7 @@ const Navbar : React.FC = () => {
             </button>
           </li>
           {/* Prompts Template Page */}
-          {template && <Template handleTemplate={handleTemplate}/>}
+          {template && <Template templateRef={templateRef} handleTemplate={handleTemplate}/>}
           {/* Render Private Page List */}
           {pageList.filter((item : IPage) => item.Port === "regular").map((item : IPage, i : number) => <Private key={i} page={item}/>)}
           {/* Holds Calender, Templates, Trash */}
