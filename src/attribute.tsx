@@ -14,7 +14,18 @@ const attribute : React.FC = () => {
     const fetchData = async () => {
       try {
         const response = await api.get(`/pages`);
-        setPageList(response.data);
+        const remappedPages = response.data.map((page : IPage, index : number) => ({
+          ...page,
+          Index: index, 
+        }));
+
+        await Promise.all(
+          remappedPages.map(async (page : IPage) => {
+            await api.put(`/pages/${page.id}`, page);
+          })
+        );
+
+        setPageList(remappedPages);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
