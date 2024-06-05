@@ -38,7 +38,8 @@ const Page : React.FC = () => {
       Description: description,
       Created: page.Created,
       Recent: new Date().toLocaleString(),
-      Port: page.Port
+      Port: page.Port,
+      id: page.id
     }
     handlePageEdit(newCurrPage);
   };

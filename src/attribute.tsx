@@ -25,6 +25,8 @@ const attribute : React.FC = () => {
           })
         );
 
+        console.log("ALL: ", remappedPages)
+
         setPageList(remappedPages);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -86,9 +88,10 @@ const attribute : React.FC = () => {
     setPageList(newPageList);
 
     // * EDIT existing page to backend
+    console.log(page, page.id)
     api.put(`/pages/${page.id}`, page)
       .then(response => console.log("Response: ", response.data))
-      .catch(error => console.log("Error: ", error))
+      .catch(error => console.log("Save Error: ", error))
   }
 
   /**
@@ -131,7 +134,7 @@ const attribute : React.FC = () => {
       // * EDIT existing page to backend
       api.put(`/pages/${page.id}`, newPortPage)
         .then(response => console.log("Response: ", response.data))
-        .catch(error => console.log("Error: ", error))
+        .catch(error => console.log("Edit Error: ", error))
     } else {
       newPageList = newPageList.map((item, index) => ({...item, Index : index}))
 
