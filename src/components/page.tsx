@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useContext } from 'react';
 import UserContext from '../data/userContext';
 import Icon from '../data/react-icons';
+import { CSS } from "@dnd-kit/utilities";
+import {
+  DndContext,
+  closestCorners,
+  useDroppable,
+  useDraggable,
+} from "@dnd-kit/core";
+// import  Editor  from "./editor";
 
 const Page : React.FC = () => {
   const { 
@@ -18,7 +26,7 @@ const Page : React.FC = () => {
   useEffect(() => {
     setTitle(page.Title);
     setDescription(page.Description);
-  }, [page])
+  }, [page]);
 
   /**
    * Save page status to private page list
@@ -66,13 +74,3 @@ const Page : React.FC = () => {
 export default Page;
 
 
-{/* <Icon.FaStar 
-  size={50} 
-  color={star ? 'yellow' : 'grey'} 
-  onClick={() => {
-    if (star) handlePageRemove(page.Index, "regular") 
-    else handlePageRemove(page.Index, "star")
-    
-  }} 
-  style={{ cursor: 'pointer' }}
-/> */}
