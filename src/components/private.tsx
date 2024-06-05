@@ -2,13 +2,14 @@ import { useState, useEffect, useRef, useContext } from 'react';
 import ContextMenu from './contextMenu'
 import UserContext from '../data/userContext';
 import { IPage } from '../data/types';
+import Icon from '../data/react-icons'; 
 
 interface privateProp{
   page : IPage
 }
 
 const Private : React.FC<privateProp> = ({ page }) => {
-  const pageStyle = "underline hover:cursor-pointer pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg"
+  const pageStyle = "hover:cursor-pointer pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg flex"
   
   const { 
     handlePageAdd,
@@ -90,7 +91,9 @@ const Private : React.FC<privateProp> = ({ page }) => {
     <>
       <div onContextMenu={handleMenuContext} onMouseOver={() => setEdit(true)} onMouseOut={() => setEdit(false)}>
         <div className={pageStyle} onClick={() => handlePageSelect(page.Index)}>
-          <span>{page.Title}</span>
+        <Icon.FaFileAlt className="w-5 h-5 mt-0.5"/>
+
+          <span className="ml-3">{page.Title}</span>
           {edit && <button onClick={handleMenuContext}>...</button>}
         </div>
       </div>

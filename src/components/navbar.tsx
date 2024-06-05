@@ -8,6 +8,9 @@ import Template from './template';
 const Navbar : React.FC = () => {
   const username = "Andy";
 
+
+  const listStyle = "pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg";
+
   const { 
     handlePageAdd, 
     pageList,
@@ -58,18 +61,18 @@ const Navbar : React.FC = () => {
     <div className="w-[250px] bg-stone-800 h-screen">
       <div className="ml-3 mt-3">
         <div className="text-slate-300">
-          <Icon.FaHouseUser className="w-6 h-6 inline pb-1" />
+          <Icon.FaRegUser className="w-6 h-6 inline pb-1" />
           <span className="ml-3">{username}'s </span>
         </div>
         <ul className="block mt-5 text-slate-400">
           {/* Hold Search and Settings buttons */}
-          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={listStyle}>
             <button className="flex w-full">
               <Icon.BiSearchAlt className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Search</span>
             </button>
           </li>
-          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={listStyle}>
             <button className="flex w-full">
               <Icon.IoSettingsOutline className="w-5 h-5 mt-0.5"/>
               <span className="ml-3">Settings</span>
@@ -77,14 +80,14 @@ const Navbar : React.FC = () => {
           </li>
           {pageList.filter((item : IPage) => item.Port === "star").map((item : IPage, i : number) => <Private key={i} page={item}/>)}
           {/* Holds Getting Started */}
-          <li className="mt-8 pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={listStyle + " mt-8"}>
             <button className="flex w-full">
               <Icon.MdOutlineContactPage className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Getting Started</span>
             </button>
           </li>
           {/* Create New Page */}
-          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={listStyle}>
             <button className="flex w-full" onClick={() => setTemplate(true)}>
               <Icon.FiPlus className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Add a New Page</span>
@@ -95,26 +98,26 @@ const Navbar : React.FC = () => {
           {/* Render Private Page List */}
           {pageList.filter((item : IPage) => item.Port === "regular").map((item : IPage, i : number) => <Private key={i} page={item}/>)}
           {/* Holds Calender, Templates, Trash */}
-          <li className="mt-8 pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={listStyle + " mt-8"}>
             <button className="flex w-full">
               <Icon.SlCalender className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Calender</span>
             </button>
           </li>
-          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={listStyle}>
             <button className="flex w-full">
               <Icon.RiShapesFill className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Templates</span>
             </button>
           </li>
-          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={listStyle}>
             <button className="flex w-full">
               <Icon.FaRegTrashCan className="w-5 h-5 mt-0.5" />
               <span className="ml-3">Trash</span>
             </button>
           </li>
           {pageList.filter((item : IPage) => item.Port === "trash").map((item : IPage, i : number) => <Private key={i} page={item}/>)}
-          <li className="pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg">
+          <li className={listStyle}>
             <button className="flex w-full">
               <Icon.IoInformationCircleSharp className="w-5 h-5 mt-0.5" />
               <span className="ml-3">About</span>
