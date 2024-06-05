@@ -29,7 +29,7 @@ const MenuContext : React.FC<MenuContextProp> = ({ contextPosition, menuRef, pag
         {page.Port ===  "trash" && <li className={listStyle} onClick={() => handlePageMove(pageIndex, "regular")}>Restore</li>}
         <li className={listStyle} onClick={() => handlePageDuplication(page)}><Icon.SiPowerpages className="w-5 h-5 mt-0.5 mr-1.5"/>Duplicate</li>
         <li className={listStyle} onClick={() => handlePageMove(pageIndex, "trash")}><Icon.TiDelete className="w-5 h-5 mt-0.5 mr-1.5"/>Delete</li>
-        {/* <li className={listStyle} onClick={() => handlePageMove(pageIndex, "permanent")}>Permanently Removed</li> */}
+        {<li className={listStyle} onClick={() => handlePageMove(pageIndex, "permanent")}>Permanently Removed</li>}
       </ul>
     </div>
   )
