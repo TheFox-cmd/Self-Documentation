@@ -5,6 +5,7 @@ export interface IPage {
   Created: string;
   Recent: string;
   Port: string;           // star, regular, trash, permanent
+  id?: string;
 }
 
 export interface IUserContext {

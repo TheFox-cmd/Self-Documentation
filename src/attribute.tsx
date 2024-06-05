@@ -1,13 +1,27 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IPage } from "./data/types";
 import UserContext from './data/userContext';
 import Page from './components/page'
 import Navbar from './components/navbar';
+import api from './api';
 
 const attribute : React.FC = () => {
     
   const [pageIndex, setPageIndex] = useState<number>(-1);
   const [pageList, setPageList] = useState<IPage[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get(`/pages`);
+        setPageList(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData(); 
+  }, []);
 
   /**
    * Acquire page base on page index
@@ -18,7 +32,7 @@ const attribute : React.FC = () => {
     Description: "Error", 
     Created: "Error",
     Recent: "Error",
-    Port: "Error"
+    Port: "Error",
   }
 
   /**
@@ -27,10 +41,18 @@ const attribute : React.FC = () => {
    */
   const handlePageAdd : (page : IPage) => void = (page) => {
     const newPageList : IPage[] = [...pageList]
-    newPageList.push(page)
-    setPageIndex(pageList.length)
-    setPageList(newPageList);
-    console.log(newPageList)
+    
+
+    // * POST new page to backend
+    api.post('/pages', page)
+      .then(newPage => {
+        console.log("Response: ", newPage.data)
+        newPageList.push(newPage.data)
+        setPageList(newPageList);
+        setPageIndex(pageList.length)
+        console.log(newPageList)
+      })
+      .catch(error => console.log("Error: ", error))
   }
 
   /**
@@ -43,7 +65,7 @@ const attribute : React.FC = () => {
 
     // * throw Error if index is not found when editing
     try {
-      if (!index) throw new Error("Index not found in page list while editing");
+      if (index < 0) throw new Error("Error: Index not found in page list while editing");
     } catch (e : any) {
       console.log(e.message);
       return
@@ -51,6 +73,11 @@ const attribute : React.FC = () => {
 
     newPageList[index] = page; 
     setPageList(newPageList);
+
+    // * EDIT existing page to backend
+    api.put(`/pages/${page.id}`, page)
+      .then(response => console.log("Response: ", response.data))
+      .catch(error => console.log("Error: ", error))
   }
 
   /**
@@ -59,7 +86,7 @@ const attribute : React.FC = () => {
    */
   const handlePageSelect : (selectedIndex : number) => void = (selectedIndex) => {
     setPageIndex(selectedIndex)
-    console.log(selectedIndex)
+    console.log(pageList, pageList[selectedIndex], pageList[selectedIndex].id)
   }
 
   /**
@@ -86,8 +113,22 @@ const attribute : React.FC = () => {
     // * Remove and append new page if necessary
     const removeIndex = newPageList.indexOf(removedPage)
     newPageList.splice(removeIndex, 1)
-    if (port !== "permanent") newPageList[newPageList.length] = {...removedPage, Port: port}
-    else newPageList = newPageList.map((item, index) => ({...item, Index : index}))
+    if (port !== "permanent") {
+      const newPortPage = {...removedPage, Port: port};
+      newPageList[newPageList.length] = newPortPage;
+    
+      // * EDIT existing page to backend
+      api.put(`/pages/${page.id}`, newPortPage)
+        .then(response => console.log("Response: ", response.data))
+        .catch(error => console.log("Error: ", error))
+    } else {
+      newPageList = newPageList.map((item, index) => ({...item, Index : index}))
+
+      // * DELETE from database when permanently removed
+      api.delete(`/pages/${page.id}`)
+      .then(response => console.log("Response: ", response.data))
+      .catch(error => console.log("Error: ", error))
+    }
     setPageList(newPageList);
 
     // * Render empty screen after delete actions
@@ -104,6 +145,7 @@ const attribute : React.FC = () => {
     pageIndex, 
     page,
     pageList,
+    id: page.id
   }
 
   return (
