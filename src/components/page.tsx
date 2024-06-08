@@ -8,7 +8,7 @@ import {
   useDroppable,
   useDraggable,
 } from "@dnd-kit/core";
-// import  Editor  from "./editor";
+import  Editor  from "./editor";
 
 const Page : React.FC = () => {
   const { 
@@ -44,29 +44,26 @@ const Page : React.FC = () => {
   };
 
   return (
-    <div className='flex-1'>
+    
+    <div className='flex-1 w-full h-full '>
       <input 
         type="text" 
         name="Page Title"
         placeholder="Untitled"
-        className="bg-neutral-500 text-zinc-300" 
+        className="bg-neutral-500 text-zinc-300 absolute" 
         key={page.Title}
         defaultValue={page.Title}
         onChange={(e) => setTitle(e.target.value)}
         onBlur={handlePageSave}
         onKeyDown={(e) => {if (e.key === "Enter") handlePageSave()}} 
       />
-      <input 
-        type="text" 
-        name="Page Description"
-        className="bg-neutral-500 text-zinc-300" 
+      <Editor 
         key={page.Description}
         defaultValue={page.Description}
+        onBlur={handlePageSave} 
         onChange={(e) => setDescription(e.target.value)}
-        onBlur={handlePageSave}
-        onKeyDown={(e) => {if (e.key === "Enter") handlePageSave()}}  
+        onKeyDown={(e) => {if (e.key === "Enter") handlePageSave()}}
       />
-      
     </div>
   );
 }
@@ -74,3 +71,10 @@ const Page : React.FC = () => {
 export default Page;
 
 
+
+
+//         key={page.Description}
+//         defaultValue={page.Description}
+//         onChange={(e) => setDescription(e.target.value)}
+//         onBlur={handlePageSave}
+//         onKeyDown={(e) => {if (e.key === "Enter") handlePageSave()}}  
