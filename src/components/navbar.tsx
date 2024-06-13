@@ -1,14 +1,19 @@
-import { useContext, useState, useEffect, useRef } from 'react';
+import { useContext, useState, useEffect, useRef, useReducer } from 'react';
 import Icon from '../data/react-icons';
 import Private from "./private";
 import {IPage} from '../data/types.js';
 import UserContext from '../data/userContext';
 import Template from './template';
+import { clearTokenAction, tokenReducer } from '../data/token';
 
-const Navbar : React.FC = () => {
+interface navbarProp {
+  setUpdate : React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const Navbar : React.FC<navbarProp> = ({ setUpdate }) => {
   const username = "Andy";
-
-
+  const initialToken = localStorage.getItem("token") || '';
+  const [token, dispatch] = useReducer(tokenReducer, { token: initialToken });
   const listStyle = "pl-1 pb-1 pt-1 w-11/12 hover:bg-zinc-200 hover:bg-opacity-25 rounded-lg";
 
   const { 
@@ -38,6 +43,11 @@ const Navbar : React.FC = () => {
     if (apply) handlePageAdd(newPage)
     else if ((eK && eK?.key !== "Escape") || (eM && templateRef.current && templateRef.current.contains(eM.target as Node))) return 
     setTemplate(false)
+  }
+
+  const handleSignout : () => void = () => {
+    setUpdate(false)
+    dispatch(clearTokenAction())
   }
 
   /**
@@ -124,6 +134,12 @@ const Navbar : React.FC = () => {
             </button>
           </li>
         </ul>
+        <div>
+          <button 
+            className={`${listStyle} text-slate-200`}
+            onClick={handleSignout}
+          >Signout</button>
+        </div>
       </div>
     </div>
   );
