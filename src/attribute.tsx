@@ -4,8 +4,11 @@ import UserContext from './data/userContext';
 import Page from './components/page'
 import Navbar from './components/navbar';
 import api from './api';
+interface attributeProp {
+  setUpdate : React.Dispatch<React.SetStateAction<boolean>>
+}
 
-const attribute : React.FC = () => {
+const attribute : React.FC<attributeProp> = ({ setUpdate }) => {
     
   const [pageIndex, setPageIndex] = useState<number>(-1);
   const [pageList, setPageList] = useState<IPage[]>([]);
@@ -164,7 +167,7 @@ const attribute : React.FC = () => {
 
   return (
     <UserContext.Provider value={theme}>
-      <Navbar/>  
+      <Navbar setUpdate={setUpdate}/>  
       {pageIndex !== -1 ? <Page /> : <div/>} 
     </UserContext.Provider>
   )
